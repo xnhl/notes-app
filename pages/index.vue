@@ -49,31 +49,31 @@ export default {
 	},
 	computed: {
 		sortedPosts: function() {
-			let sorted = [...this.posts];
-			let reversed = sorted.reverse();
+			let sorted = [...this.posts]
+			let reversed = sorted.reverse()
 			return reversed
 		}
 	},
 	methods: {
 		search: function() {
-			let posts = [...document.getElementById("posts-wrapper").children];
-			let searchValue = document.getElementById("search-input").value;
+			let posts = [...document.getElementById("posts-wrapper").children]
+			let searchValue = document.getElementById("search-input").value
 			for (let post of posts) {
-				let title = post.children[1].textContent.toLowerCase();
-				let body = post.children[2].textContent.toLowerCase();
+				let title = post.children[1].textContent.toLowerCase()
+				let body = post.children[2].textContent.toLowerCase()
 				if (title.indexOf(searchValue) > -1 || body.indexOf(searchValue) > -1) {
 					post.classList.remove("hide")
 				} else post.classList.add("hide")
 			}
 		},
 		write: function() {
-			const adapter = new LocalStorage('db');
-			const db = low(adapter);
-			const nanoid = require("nanoid");
-			let title = document.getElementById("title-text");
-			let titleText = title.value.toString();
-			let body = document.getElementById("body-text");
-			let bodyText = body.value.toString();
+			const adapter = new LocalStorage('db')
+			const db = low(adapter)
+			const nanoid = require("nanoid")
+			let title = document.getElementById("title-text")
+			let titleText = title.value.toString()
+			let body = document.getElementById("body-text")
+			let bodyText = body.value.toString()
 			if (titleText == "" || bodyText == "") {
 				console.log("empty")
 				// show modal saying that there needs to be text
@@ -85,24 +85,24 @@ export default {
 						title: titleText,
 						body: bodyText 
 					})
-					.write();
-				let allPosts = db.get('posts').value();
-				this.posts = allPosts;
-				title.value = "";
+					.write()
+				let allPosts = db.get('posts').value()
+				this.posts = allPosts
+				title.value = ""
 				body.value = ""
 			}
 		},
 		updateList: function(id) {
-			const adapter = new LocalStorage('db');
-			const db = low(adapter);
-			let existing = db.get('posts').value();
+			const adapter = new LocalStorage('db')
+			const db = low(adapter)
+			let existing = db.get('posts').value()
 			this.posts = existing
 		},
 		addRandom: function() {
-			const adapter = new LocalStorage('db');
-			const db = low(adapter);
-			const nanoid = require("nanoid");
-			let list = db.get('posts').value();
+			const adapter = new LocalStorage('db')
+			const db = low(adapter)
+			const nanoid = require("nanoid")
+			let list = db.get('posts').value()
 			let defaultList = [
 				{
 					title: "Rerum, velit molestias",
@@ -144,7 +144,7 @@ export default {
 					title: "Nulla aspernatur facilis ipsam",
 					body: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla aspernatur facilis ipsam deleniti, itaque doloremque nam iusto consectetur sequi quae ipsum ipsa veritatis cumque molestias."
 				},
-			];
+			]
 			for (let i = 0; i < 10; i++) {
 				list.unshift({
 					id: nanoid(),
@@ -155,40 +155,40 @@ export default {
 			}
 			db.get('posts')
 				.assign({ posts: list })
-				.write();
-			let newList = db.get('posts').value();
+				.write()
+			let newList = db.get('posts').value()
 			this.posts = newList
 		},
 		save: function() {
-			var FileSaver = require('file-saver');
-			const adapter = new LocalStorage('db');
-			const db = low(adapter);
-			let list = db.get('posts').value();
-			let stringed = JSON.stringify(list);
-			var blob = new Blob([stringed], {type: "application/json"});
-			FileSaver.saveAs(blob, "test.json");
+			var FileSaver = require('file-saver')
+			const adapter = new LocalStorage('db')
+			const db = low(adapter)
+			let list = db.get('posts').value()
+			let stringed = JSON.stringify(list)
+			var blob = new Blob([stringed], {type: "application/json"})
+			FileSaver.saveAs(blob, "test.json")
 		},
 		saveText: function() {
-			var FileSaver = require('file-saver');
-			const adapter = new LocalStorage('db');
-			const db = low(adapter);
-			let list = db.get('posts').value();
+			var FileSaver = require('file-saver')
+			const adapter = new LocalStorage('db')
+			const db = low(adapter)
+			let list = db.get('posts').value()
 			let stringed = list.map(each => {
-				let title = each.title.replace(/\r|\n/gi, "");
-				let body = each.body.replace(/\r|\n/gi, "");
-				let timestamp = each.timestamp;
+				let title = each.title.replace(/\r|\n/gi, "")
+				let body = each.body.replace(/\r|\n/gi, "")
+				let timestamp = each.timestamp
 				return `${title} (${timestamp}) - ${body}\r\n\r\n`
-			});
-			var blob = new Blob(stringed, {type: "text/plain"});
-			FileSaver.saveAs(blob, "test.txt");
+			})
+			var blob = new Blob(stringed, {type: "text/plain"})
+			FileSaver.saveAs(blob, "test.txt")
 		},
 		loadFile: async function(input) {
-			const adapter = new LocalStorage('db');
-			const db = low(adapter);
-			const selectedFile = document.getElementById('load-input').files[0];
-			let reader = new FileReader();
+			const adapter = new LocalStorage('db')
+			const db = low(adapter)
+			const selectedFile = document.getElementById('load-input').files[0]
+			let reader = new FileReader()
 			reader.onload = (event) => {
-				let res = JSON.parse(event.target.result);
+				let res = JSON.parse(event.target.result)
 				this.posts = res
 				db.set('posts', res)
 					.write()
@@ -197,12 +197,12 @@ export default {
 		}
 	},
 	mounted() {
-		const adapter = new LocalStorage('db');
-		const db = low(adapter);
-		const nanoid = require("nanoid");
+		const adapter = new LocalStorage('db')
+		const db = low(adapter)
+		const nanoid = require("nanoid")
 		if (db.has('posts').value()) {
-			let existing = db.get('posts').value();
-			this.posts = existing;
+			let existing = db.get('posts').value()
+			this.posts = existing
 		} else {
 			let lorem = [
 				{
@@ -245,8 +245,8 @@ export default {
 					title: "Nulla aspernatur facilis ipsam",
 					body: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla aspernatur facilis ipsam deleniti, itaque doloremque nam iusto consectetur sequi quae ipsum ipsa veritatis cumque molestias."
 				},
-			];
-			let list = [];
+			]
+			let list = []
 			for (let each of lorem) {
 				list.unshift({
 					id: nanoid(),
@@ -255,8 +255,8 @@ export default {
 					body: each.body
 				})
 			}
-			db.defaults({ posts: list }).write();
-			let newList = db.get('posts').value();
+			db.defaults({ posts: list }).write()
+			let newList = db.get('posts').value()
 			this.posts = newList
 		}
 	}
@@ -268,6 +268,7 @@ export default {
 	@include pageWrapper
 	position: relative
 	padding: 0.25rem
+	width: 100%
 	#add-post
 		@include flexCenter
 		align-items: stretch

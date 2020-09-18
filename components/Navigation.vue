@@ -22,27 +22,27 @@ export default {
 	created() {
 		setInterval(() => {
 			this.time = `${moment().format("LL")} ${moment().format("LTS")}`
-		}, 1000);
+		}, 1000)
 	},
 	methods: {
 		toggleTheme: function() {
 			this.$emit("toggle-theme")
 		},
 		handleScroll: function() {
-			let y = window.scrollY;
-			this.scroll_new = y;
-			let nav_wrapper = document.getElementById("navigation-wrapper");
+			let y = window.scrollY
+			this.scroll_new = y
+			let nav_wrapper = document.getElementById("navigation-wrapper")
 			if (this.scroll_new > this.scroll_old) {
-				nav_wrapper.classList.add("nav-hidden");
+				nav_wrapper.classList.add("nav-hidden")
 				this.scroll_old = y
 			} else if (this.scroll_new < this.scroll_old) {
-				nav_wrapper.classList.remove("nav-hidden");
+				nav_wrapper.classList.remove("nav-hidden")
 				this.scroll_old = y
 			}
 		}
 	},
 	mounted() {
-		window.addEventListener('scroll', this.handleScroll);
+		window.addEventListener('scroll', this.handleScroll)
 	}
 }
 </script>

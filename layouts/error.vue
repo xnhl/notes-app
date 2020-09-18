@@ -1,7 +1,6 @@
 <template>
 	<section id="error-wrapper">
 		<section id="error-content">
-			<p class="error-code">{{ error.statusCode }}</p>
 			<p class="info">Page does not exist.</p>
 			<p class="info">Going back...</p>
 		</section>
@@ -14,7 +13,7 @@ export default {
 	mounted() {
 		setTimeout(() => {
 			this.$router.go(-1)
-		}, 1000);
+		}, 1000)
 	}
 }
 </script>

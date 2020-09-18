@@ -35,33 +35,33 @@ export default {
 	},
 	methods: {
 		updateTitle: function(e) {
-			let newTitle = e.target.textContent;
+			let newTitle = e.target.textContent
 			this.title = newTitle
 		},
 		updateBody: function(e) {
-			let newBody = e.target.textContent;
+			let newBody = e.target.textContent
 			this.body = newBody
 		},
 		deletePost: function() {
-			const adapter = new LocalStorage('db');
-			const db = low(adapter);
+			const adapter = new LocalStorage('db')
+			const db = low(adapter)
 			db.get('posts')
 				.remove({ id: this.info.id })
-				.write();
+				.write()
 			this.$emit('postDelete', this.info.id)
 		},
 		copyNote: function() {
-			const copy = require('copy-text-to-clipboard');
+			const copy = require('copy-text-to-clipboard')
 			copy(`${this.info.title} (${this.info.timestamp}): ${this.info.body}`)
 		},
 		updatePost: function(e) {
-			e.target.blur();
-			const adapter = new LocalStorage('db');
-			const db = low(adapter);
+			e.target.blur()
+			const adapter = new LocalStorage('db')
+			const db = low(adapter)
 			db.get('posts')
 				.find({ id: this.info.id })
 				.assign({ title: this.title, body: this.body })
-				.write();
+				.write()
 			this.$emit("postUpdate", this.info.id)
 		}
 	}
@@ -74,6 +74,7 @@ export default {
 	position: relative
 	animation: fadeIn 0.3s ease-in-out
 	flex: 1
+	min-width: 100%
 	overflow: hidden
 	margin: 0.5rem
 	border-radius: 0.25rem
@@ -81,7 +82,7 @@ export default {
 	flex-direction: column
 	background: var(--gray-three)
 	box-shadow: var(--theme-boxShadowLight)
-	@media (min-width: 32em)
+	@media (min-width: 40em)
 		min-width: 40%
 		max-width: 55%
 	&:hover

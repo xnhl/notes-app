@@ -35,13 +35,13 @@ export default {
 	},
 	methods: {
 		changeTheme: function() {
-			this.mode = this.mode === 'light' ? 'dark' : 'light';
-			let root = document.documentElement;
+			this.mode = this.mode === 'light' ? 'dark' : 'light'
+			let root = document.documentElement
 			if (this.mode === 'light') {
-				root.style.setProperty('--theme-bg', '#CCCCCC');
+				root.style.setProperty('--theme-bg', '#CCCCCC')
 				localStorage.setItem("theme", "light")
 			} else if (this.mode === 'dark') {
-				root.style.setProperty('--theme-bg', '#141414');
+				root.style.setProperty('--theme-bg', '#141414')
 				localStorage.setItem("theme", "dark")
 			}
 		}
